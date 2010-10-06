@@ -140,9 +140,9 @@ module Aruba
         announce_or_puts("$ cd #{Dir.pwd}") if @announce_dir
         announce_or_puts("$ #{cmd}") if @announce_cmd
         ps = BackgroundProcess.run(cmd)
-        @last_stdout = ps.stdout.read #lines.join
+        @last_stdout = ps.stdout.read 
         announce_or_puts(@last_stdout) if @announce_stdout
-        @last_stderr = ps.stderr.read #lines.join
+        @last_stderr = ps.stderr.read
         announce_or_puts(@last_stderr) if @announce_stderr
         @last_exit_status = ps.exitstatus # Waits for process to finish
       end
