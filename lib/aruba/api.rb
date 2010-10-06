@@ -140,11 +140,11 @@ module Aruba
         announce_or_puts("$ cd #{Dir.pwd}") if @announce_dir
         announce_or_puts("$ #{cmd}") if @announce_cmd
         ps = BackgroundProcess.run(cmd)
-        @last_exit_status = ps.exitstatus # waits for the process to finish
-        @last_stdout = ps.stdout.read
+        @last_stdout = ps.stdout.read #lines.join
         announce_or_puts(@last_stdout) if @announce_stdout
-        @last_stderr = ps.stderr.read
+        @last_stderr = ps.stderr.read #lines.join
         announce_or_puts(@last_stderr) if @announce_stderr
+        @last_exit_status = ps.exitstatus # Waits for process to finish
       end
 
       if(@last_exit_status != 0 && fail_on_error)
@@ -163,7 +163,7 @@ module Aruba
     end
 
     def interactive_output
-      if @interactive
+      @_interactive ||= if @interactive
         @interactive.wait(1) || @interactive.kill('TERM')
         @interactive.stdout.read
       else
